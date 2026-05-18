@@ -7,7 +7,7 @@
     entity_id: switch.pool_light_p100_3
     to: 'on'
     for:
-      minutes: 90
+      minutes: 120
   condition: []
   action:
   - service: script.pool_light_off
