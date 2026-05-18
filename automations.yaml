@@ -1,0 +1,13 @@
+- id: pool_light_auto_off_after_2_hours
+  alias: Pool Light - Auto Off After 2 Hours
+  description: Automatically turns the pool light off after being on for 2 hours.
+  mode: restart
+  trigger:
+  - platform: state
+    entity_id: switch.pool_light_p100_3
+    to: 'on'
+    for:
+      minutes: 90
+  condition: []
+  action:
+  - service: script.pool_light_off

@@ -1,0 +1,19 @@
+input_select:
+  pool_light_current_colour:
+    name: Pool Light Current Colour
+    options:
+      - White 4000k
+      - Aqua
+      - Blue
+      - Magenta
+      - Red
+      - Lime
+      - Green
+      - Oceanic Views
+      - Transcendence
+      - Outback Australia
+      - Spring Equinox
+    initial: White 4000k
+    icon: mdi:palette
+    
+    

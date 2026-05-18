@@ -1,0 +1,221 @@
+pool_light_on:
+  alias: Pool Light - On
+  mode: single
+  sequence:
+    - service: switch.turn_on
+      target:
+        entity_id: switch.pool_light_p100_3
+
+pool_light_reset_to_white:
+  alias: Pool Light - Reset To White 4000k
+  mode: single
+  sequence:
+    - service: switch.turn_on
+      target:
+        entity_id: switch.pool_light_p100_3
+
+    - delay:
+        seconds: 1
+
+    - service: switch.turn_off
+      target:
+        entity_id: switch.pool_light_p100_3
+
+
+
+    - service: switch.turn_on
+      target:
+        entity_id: switch.pool_light_p100_3
+
+    - delay:
+        seconds: 3
+
+    - service: input_select.select_option
+      target:
+        entity_id: input_select.pool_light_current_colour
+      data:
+        option: White 4000k
+        
+        
+        
+
+pool_light_next_colour:
+  alias: Pool Light - Next Colour
+  mode: single
+  sequence:
+    - service: switch.turn_off
+      target:
+        entity_id: switch.pool_light_p100_3
+
+    - delay:
+        seconds: 2
+
+    - service: switch.turn_on
+      target:
+        entity_id: switch.pool_light_p100_3
+
+    - delay:
+        seconds: 2
+
+    - variables:
+        colours:
+          - White 4000k
+          - Aqua
+          - Blue
+          - Magenta
+          - Red
+          - Lime
+          - Green
+          - Oceanic Views
+          - Transcendence
+          - Outback Australia
+          - Spring Equinox
+        current: "{{ states('input_select.pool_light_current_colour') }}"
+        current_index: "{{ colours.index(current) if current in colours else 0 }}"
+        next_index: "{{ (current_index + 1) % (colours | count) }}"
+        next_colour: "{{ colours[next_index] }}"
+
+    - service: input_select.select_option
+      target:
+        entity_id: input_select.pool_light_current_colour
+      data:
+        option: "{{ next_colour }}"
+        
+        
+
+pool_light_set_colour_steps:
+  alias: Pool Light - Set Colour Steps From White
+  mode: queued
+  fields:
+    steps:
+      description: Number of colour steps from White 4000k
+    colour:
+      description: Colour name to store
+  sequence:
+    - service: script.pool_light_reset_to_white
+
+    - repeat:
+        count: "{{ steps | int }}"
+        sequence:
+          - service: script.pool_light_next_colour
+
+    - service: input_select.select_option
+      target:
+        entity_id: input_select.pool_light_current_colour
+      data:
+        option: "{{ colour }}"
+
+pool_light_off:
+  alias: Pool Light - Off
+  mode: single
+  sequence:
+    - service: script.pool_light_reset_to_white
+
+    - delay:
+        seconds: 2
+
+    - service: switch.turn_off
+      target:
+        entity_id: switch.pool_light_p100_3
+
+    - service: input_select.select_option
+      target:
+        entity_id: input_select.pool_light_current_colour
+      data:
+        option: White 4000k
+
+pool_light_white_4000k:
+  alias: Pool Light - White 4000k
+  mode: single
+  sequence:
+    - service: script.pool_light_reset_to_white
+
+pool_light_aqua:
+  alias: Pool Light - Aqua
+  mode: single
+  sequence:
+    - service: script.pool_light_set_colour_steps
+      data:
+        steps: 1
+        colour: Aqua
+
+pool_light_blue:
+  alias: Pool Light - Blue
+  mode: single
+  sequence:
+    - service: script.pool_light_set_colour_steps
+      data:
+        steps: 2
+        colour: Blue
+
+pool_light_magenta:
+  alias: Pool Light - Magenta
+  mode: single
+  sequence:
+    - service: script.pool_light_set_colour_steps
+      data:
+        steps: 3
+        colour: Magenta
+
+pool_light_red:
+  alias: Pool Light - Red
+  mode: single
+  sequence:
+    - service: script.pool_light_set_colour_steps
+      data:
+        steps: 4
+        colour: Red
+
+pool_light_lime:
+  alias: Pool Light - Lime
+  mode: single
+  sequence:
+    - service: script.pool_light_set_colour_steps
+      data:
+        steps: 5
+        colour: Lime
+
+pool_light_green:
+  alias: Pool Light - Green
+  mode: single
+  sequence:
+    - service: script.pool_light_set_colour_steps
+      data:
+        steps: 6
+        colour: Green
+
+pool_light_oceanic_views:
+  alias: Pool Light - Oceanic Views
+  mode: single
+  sequence:
+    - service: script.pool_light_set_colour_steps
+      data:
+        steps: 7
+        colour: Oceanic Views
+
+pool_light_transcendence:
+  alias: Pool Light - Transcendence
+  mode: single
+  sequence:
+    - service: script.pool_light_set_colour_steps
+      data:
+        steps: 8
+        colour: Transcendence
+
+pool_light_outback_australia:
+  alias: Pool Light - Outback Australia
+  mode: single
+  sequence:
+    - service: script.pool_light_set_colour_steps
+      data:
+        steps: 9
+        colour: Outback Australia
+
+pool_light_spring_equinox:
+  alias: Pool Light - Spring Equinox
+  mode: single
+  sequence:
+    - service: script.pool_light_set_colour_steps
+      data:
+        steps: 10
+        colour: Spring Equinox
