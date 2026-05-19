@@ -4,7 +4,7 @@ This repository contains the YAML configuration I use in Home Assistant to contr
 
 The light is controlled by briefly switching power off and back on using a **TP-Link Tapo P100 smart plug**, which advances the pool light to the next colour/program mode. Home Assistant keeps track of the selected colour so it can be shown on the dashboard.
 
-![Pool Light Dashboard](dashboard.png)
+![Pool Light Dashboard](Dashboard.png)
 
 ## What this does
 
